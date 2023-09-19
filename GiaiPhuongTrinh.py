@@ -62,7 +62,7 @@ kq_label.grid(column=0,row=4,columnspan=4)
 
 # Run the event loop
 window.mainloop()
-
+print("test")
 # Retrieve the input values
 
 
