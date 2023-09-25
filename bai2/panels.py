@@ -25,3 +25,11 @@ class SwitchPanel(Panel):
         for var,text in args:
             switch = ctk.CTkSwitch(self,text= text,variable= var,button_color="#3078c9" ,fg_color="#4a4a4a")
             switch.pack(side = 'left',expand = True,fill = 'both', padx = 5, pady =5)
+
+class ButtonPanel(Panel):
+    def __init__(self,parent,text,func):
+        super().__init__(parent= parent)
+        self.btn = ctk.CTkButton(self,text=text,command=func,fg_color='#3078c9')
+        self.btn.pack(padx = 5, pady =5)
+
+        

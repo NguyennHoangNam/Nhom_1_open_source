@@ -2,7 +2,7 @@ import customtkinter as ctk
 from panels import *
 
 class Menu(ctk.CTkTabview):
-    def __init__(self,parent,position_vars,color_vars):
+    def __init__(self,parent,position_vars,color_vars,funtions):
         super().__init__(master=parent)
         self.grid(row = 0,column = 0 ,sticky = 'nsew',padx = 10, pady = 10)
 
@@ -11,15 +11,14 @@ class Menu(ctk.CTkTabview):
         self.add('Effect')
         self.add('Export')
 
-        PositionFrame(self.tab('Posistion'),position_vars)
-        ColorFrame(self.tab('Color'),color_vars)
+        self.position_tab = PositionFrame(self.tab('Posistion'),position_vars,funtions)
+        self.colortap = ColorFrame(self.tab('Color'),color_vars)
 
 class PositionFrame(ctk.CTkFrame):
-    def __init__(self,parent,position_vars):
+    def __init__(self,parent,position_vars,funtions):
         super().__init__(master=parent, fg_color='transparent')
         self.pack(expand = True,fill = 'both')
-        SliderPanel(self,"rotation",position_vars['rotation'],min_value=-255,max_value=255)
-
+        self.crop_btn = ButtonPanel(self,'crop',funtions['crop'])
 class ColorFrame(ctk.CTkFrame):
     def __init__(self,parent,color_vars):
         super().__init__(master=parent, fg_color='transparent')

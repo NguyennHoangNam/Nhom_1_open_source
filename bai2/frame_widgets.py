@@ -22,14 +22,14 @@ class Import_Frame(ctk.CTkFrame):
 
 
 class Workplace_Frame(ctk.CTkFrame):
-    def __init__(self, parent,close_func,resized_image,resize_image_func,position_vars,color_vars):
+    def __init__(self, parent,close_func,resized_image,funtions,position_vars,color_vars):
         super().__init__(master=parent,bg_color="#242424")
-        self.grid(column = 0, row = 0,sticky = "nsew")
+        self.grid(column = 0, row = 0,sticky = "nsew",padx = 16, pady = 16)
         self.rowconfigure(0,weight=1)
         self.columnconfigure(0,weight=2, uniform='a')
         self.columnconfigure(1,weight=6, uniform='a')
-        self.menu = Menu(self,position_vars,color_vars)
-        self.canvas = Canvas_area(self,resized_image,resize_image_func)
+        self.menu = Menu(self,position_vars,color_vars,funtions)
+        self.canvas = Canvas_area(self,resized_image,funtions)
         self.close_button = ctk.CTkButton(master=parent,
                          text='x',
                          text_color='#fff' ,
@@ -43,12 +43,12 @@ class Workplace_Frame(ctk.CTkFrame):
     
 
 class Canvas_area(Canvas):
-    def __init__(self,parent,resized_image,resize_image_func):
+    def __init__(self,parent,resized_image,funtions):
         super().__init__(master= parent,background='#242424',bd=0,highlightthickness=0,relief='ridge')
         self.grid(row=0,column=1,sticky="nsew")
         self.resized_image= resized_image
-        self.create_image(self.winfo_width() / 2,self.winfo_height()/2,image = self.resized_image)
-        self.bind('<Configure>',resize_image_func)
-          
+        self.image_item = self.create_image(self.winfo_width() / 2,self.winfo_height()/2,image = self.resized_image)
+        self.bind('<Configure>',funtions['resize'])
+
 
 
