@@ -7,9 +7,8 @@ class App(ctk.CTk):
     def __init__(self):
         super().__init__()
         ctk.set_appearance_mode('dark')
-        self.geometry('1300x700+150+50')
-        self.title('photo')
-        self.minsize(800,500)
+        self.geometry('1400x700+150+50')
+        self.title('Faketoshop')
         self.rowconfigure(0,weight=1)
         self.columnconfigure(0,weight=1)
         self.import_frame = Import_Frame(self,self.open_workplace,self.import_image)
@@ -62,6 +61,7 @@ class App(ctk.CTk):
         self.origin_image = Image.open(path)
         self.image = self.origin_image
         self.image_array = np.array(self.image)
+        print(self.image_array[:3,:3,:])
         self.imagetk = ImageTk.PhotoImage(self.image)
         
         
