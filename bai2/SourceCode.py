@@ -30,7 +30,8 @@ class App(ctk.CTk):
         }
         self.funtions = {
             'crop': self.image_crop,
-            'resize': self.resize_image
+            'resize': self.resize_image,
+            'export' : self.export_imgae
         }
         for var in list(self.position_vars.values()) + list(self.color_vars.values()):
             var.trace('w',self.manipulate_image)
@@ -144,6 +145,10 @@ class App(ctk.CTk):
             self.workplace_frame.canvas.unbind("<B1-Motion>")
             self.workplace_frame.canvas.unbind("<ButtonRelease-1>")
             self.workplace_frame.menu.position_tab.crop_btn.btn.configure(fg_color="#3078c9")
+
+    def export_imgae(self,name,file,path):
+        export_string = f'{path}/{name}.{file}'
+        self.image.save(export_string)
 App()
 
 
