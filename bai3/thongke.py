@@ -25,3 +25,4 @@ class App(ctk.CTk):
         self.np_data[9,0] = 'total'
 App()
 
+print("test")
