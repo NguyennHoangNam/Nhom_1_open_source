@@ -1,34 +1,57 @@
 import tkinter as tk
-from sympy import Symbol, Eq, solve
+import numpy as np
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from sympy import sympify, symbols, lambdify
 
-class AlgebraApp:
+class FunctionPlotter:
     def __init__(self, root):
         self.root = root
-        self.root.title("Algebra App")
+        self.root.title("Function Plotter")
         
-        self.equation_label = tk.Label(root, text="Equation:")
-        self.equation_label.pack()
+        self.canvas_width = 500
+        self.canvas_height = 500
         
-        self.equation_entry = tk.Entry(root)
-        self.equation_entry.pack()
+        self.canvas = tk.Canvas(root, width=self.canvas_width, height=self.canvas_height)
+        self.canvas.pack()
         
-        self.solve_button = tk.Button(root, text="Solve", command=self.solve_equation)
-        self.solve_button.pack()
+        self.figure = Figure(figsize=(5, 5))
+        self.ax = self.figure.add_subplot(111)
         
-        self.result_label = tk.Label(root, text="")
-        self.result_label.pack()
+        self.canvas_widget = FigureCanvasTkAgg(self.figure, master=self.canvas)
+        self.canvas_widget.get_tk_widget().pack()
         
-    def solve_equation(self):
-        equation = self.equation_entry.get()
-        x = Symbol('x')
+        self.function_entry = tk.Entry(root)
+        self.function_entry.pack()
+        
+        self.plot_button = tk.Button(root, text="Plot", command=self.plot_function)
+        self.plot_button.pack()
+        
+        self.clear_button = tk.Button(root, text="Clear", command=self.clear_plot)
+        self.clear_button.pack()
+        
+    def plot_function(self):
+        function_str = self.function_entry.get()
+        x = symbols('x')
+        
         try:
-            equation = Eq(eval(equation), 0)  # Convert the string equation to a SymPy equation
-            solution = solve(equation, x)
-            self.result_label.config(text="Solution: x = " + str(solution))
+            function = sympify(function_str)
+            func_lambda = lambdify(x, function, "numpy")
+            
+            x_vals = np.linspace(-10, 10, 400)
+            y_vals = func_lambda(x_vals)
+            
+            self.ax.plot(x_vals, y_vals)
+            self.ax.axhline(0, color='black', linewidth=0.5)
+            self.ax.axvline(0, color='black', linewidth=0.5)
+            self.canvas_widget.draw()
         except Exception as e:
-            self.result_label.config(text="Error: " + str(e))
-
+            print("Error:", e)
+    
+    def clear_plot(self):
+        self.ax.clear()
+        self.canvas_widget.draw()
+    
 root = tk.Tk()
-app = AlgebraApp(root)
-root.geometry("500x500+150+50")
+app = FunctionPlotter(root)
 root.mainloop()
