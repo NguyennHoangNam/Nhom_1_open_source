@@ -30,4 +30,5 @@ class AlgebraApp:
 
 root = tk.Tk()
 app = AlgebraApp(root)
+root.geometry("500x500+150+50")
 root.mainloop()
